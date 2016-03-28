@@ -15,14 +15,14 @@ has 'voltage' => ( isa => num_of_unit('V'), is => 'ro', required => 1 );
 has '+length' => ( isa => num_of_unit('m'), is => 'ro', required => 0, default =>  0.04570984 . 'm' );
 has 'sharpness' => ( isa => 'Num', is => 'ro', default => 1 );
 
-my $pm_a = 0.544667;
-my $pm_b = 0.00278104;
-my $pm_c = 332.551;
-my $pm_d = 0.0415734;
-my $pm_e = 213.238;
-my $pm_f = 0.0168457;
-my $pm_g = 1761.42;
-my $pm_h = 31.4205;
+#my $pm_a = 0.544667;
+#my $pm_b = 0.00278104;
+#my $pm_c = 332.551;
+#my $pm_d = 0.0415734;
+#my $pm_e = 213.238;
+#my $pm_f = 0.0168457;
+#my $pm_g = 1761.42;
+#my $pm_h = 31.4205;
 
 my $pm_a = 0.7323682193121402;
 my $pm_b = 1.8258141203642293 / 1000;
