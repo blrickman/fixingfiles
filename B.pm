@@ -15,8 +15,6 @@ has 'voltage' => ( isa => num_of_unit('V'), is => 'ro', required => 1 );
 has '+length' => ( isa => num_of_unit('m'), is => 'ro', required => 0, default =>  0.04570984 . 'm' );
 has 'sharpness' => ( isa => 'Num', is => 'ro', default => 1 );
 
-
-# Cyl gun fit
 my $pm_a = 0.544667;
 my $pm_b = 0.00278104;
 my $pm_c = 332.551;
@@ -26,16 +24,14 @@ my $pm_f = 0.0168457;
 my $pm_g = 1761.42;
 my $pm_h = 31.4205;
 
-if (1) {
-   $pm_a = 0.7323682193121402;
-   $pm_b = 0.0018258141203642293;
-   $pm_c = 419.22305621512435;
-   $pm_d = 0.042697578590972284;
-   $pm_e = 231.22817596631087;
-   $pm_f = 0.016856140662231493;
-   $pm_g = 1259.5318887451284;
-   $pm_h = 28.65;
-}
+#my $pm_a = 0.7323682193121402;
+#my $pm_b = 1.8258141203642293 / 1000;
+#my $pm_c = 0.41922305621512435* 1000;
+#my $pm_d = 42.697578590972284 / 1000;
+#my $pm_e = 0.23122817596631087* 1000;
+#my $pm_f = 16.856140662231493 / 1000;
+#my $pm_g = 0.0012595318887451284 * 10**6;
+#my $pm_h = 28.65;
 
 method field () {
   my $acc_length = 1/$pm_h;
@@ -70,7 +66,7 @@ method effect () {
       return 0;
     }
 
-    return $force/2 * $pm_h * ((-1 - tanh($pm_c*(-$pm_b +$pulse_z)))*($pm_e*sech($pm_e*(-$pm_d +$pulse_z))**2 + 2*$pm_g*($pm_f -$pulse_z)*(-1 + tanh($pm_e*(-$pm_d +$pulse_z)))) - $pm_c*sech($pm_c*(-$pm_b +$pulse_z))**2*(-1 + 2*exp($pm_g*($pm_f -$pulse_z)**2)*$pm_a + tanh($pm_e*(-$pm_d +$pulse_z))))/(4*exp($pm_g*($pm_f -$pulse_z)**2));
+    return gamma($pulse_v) * (1 + ($pulse_v/vc)**2) * $force/2 * $pm_h * ((-1 - tanh($pm_c*(-$pm_b +$pulse_z)))*($pm_e*sech($pm_e*(-$pm_d +$pulse_z))**2 + 2*$pm_g*($pm_f -$pulse_z)*(-1 + tanh($pm_e*(-$pm_d +$pulse_z)))) - $pm_c*sech($pm_c*(-$pm_b +$pulse_z))**2*(-1 + 2*exp($pm_g*($pm_f -$pulse_z)**2)*$pm_a + tanh($pm_e*(-$pm_d +$pulse_z))))/(4*exp($pm_g*($pm_f -$pulse_z)**2));
   };
 
   my $acc_mz = sub {
@@ -80,7 +76,7 @@ method effect () {
       return 0;
     }
 
-    return -$force * $pm_h * ((-1 - tanh($pm_c*(-$pm_b +$pulse_z)))*($pm_e*sech($pm_e*(-$pm_d +$pulse_z))**2 + 2*$pm_g*($pm_f -$pulse_z)*(-1 + tanh($pm_e*(-$pm_d +$pulse_z)))) - $pm_c*sech($pm_c*(-$pm_b +$pulse_z))**2*(-1 + 2*exp($pm_g*($pm_f -$pulse_z)**2)*$pm_a + tanh($pm_e*(-$pm_d +$pulse_z))))/(4*exp($pm_g*($pm_f -$pulse_z)**2));
+    return  -$force * $pm_h * ((-1 - tanh($pm_c*(-$pm_b +$pulse_z)))*($pm_e*sech($pm_e*(-$pm_d +$pulse_z))**2 + 2*$pm_g*($pm_f -$pulse_z)*(-1 + tanh($pm_e*(-$pm_d +$pulse_z)))) - $pm_c*sech($pm_c*(-$pm_b +$pulse_z))**2*(-1 + 2*exp($pm_g*($pm_f -$pulse_z)**2)*$pm_a + tanh($pm_e*(-$pm_d +$pulse_z))))/(4*exp($pm_g*($pm_f -$pulse_z)**2));
   };
 
   #TODO add anode effects
