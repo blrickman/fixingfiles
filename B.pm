@@ -15,15 +15,6 @@ has 'voltage' => ( isa => num_of_unit('V'), is => 'ro', required => 1 );
 has '+length' => ( isa => num_of_unit('m'), is => 'ro', required => 0, default =>  0.04570984 . 'm' );
 has 'sharpness' => ( isa => 'Num', is => 'ro', default => 1 );
 
-#my $pm_a = 0.544667;
-#my $pm_b = 0.00278104;
-#my $pm_c = 332.551;
-#my $pm_d = 0.0415734;
-#my $pm_e = 213.238;
-#my $pm_f = 0.0168457;
-#my $pm_g = 1761.42;
-#my $pm_h = 31.4205;
-
 my $pm_a = 0.7323682193121402;
 my $pm_b = 1.8258141203642293 / 1000;
 my $pm_c = 0.41922305621512435* 1000;
@@ -31,11 +22,11 @@ my $pm_d = 42.697578590972284 / 1000;
 my $pm_e = 0.23122817596631087* 1000;
 my $pm_f = 16.856140662231493 / 1000;
 my $pm_g = 0.0012595318887451284 * 10**6;
-my $pm_h = 28.65;
+my $pm_h = 26.5;
 
 method field () {
-  my $acc_length = 1/$pm_h;
-  return $self->voltage/$acc_length;
+  my $acc_length = 3.773*10**-2;
+  return$self->voltage/$acc_length;
 
   my $pulse_z = 0;
   return $self->voltage * $pm_h * ( ($pm_a*(1 - tanh($pm_c*(-$pm_b + $pulse_z))))/2 +  ((1 + tanh($pm_c*(-$pm_b + $pulse_z)))*(1 - tanh($pm_e*(-$pm_d + $pulse_z))))/  (4*exp($pm_g*(-$pm_f + $pulse_z)**2)) )
@@ -163,3 +154,4 @@ Copyright (C) 2012-2013 by Joel Berger
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
